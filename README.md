@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 
 <link rel="stylesheet" href="style.css">
 <!-- saved from url=(0014)about:internet -->
