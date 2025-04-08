@@ -617,11 +617,6 @@ training_args = TrainingArguments(
     The results that we were able to reproduce can be succesfully implemented in other work environments as long as the datasets and the pretrained models can be acquired. 
 
 </p>
-<p>
-    Did your dataset or annotation affect other people's choice of research or development projects to undertake?
-    Does your work have potential harm or risk to our society? What kinds? If so, how can you address them?
-    What limitations does your model have? How can you extend your work for future research?
-</p>
 <hr>
   </div>
 
