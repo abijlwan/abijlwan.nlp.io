@@ -176,89 +176,132 @@ custom-made dataset. This will be designed specifically for the Sourashtra langu
 <h2 id="approach">Approach</h2>
 
 <p>
-<b>What did you do exactly? How did you solve the problem? Why did you think it would be successful? Is anything new in your approach?</b>
-We began by using the capable multilingual model XLM-RoBERTa to address the issue of limited data in minority languages like Sourashtra. 
-First, we gathered large datasets in related Indian languages like Hindi, Gujarati, Marathi, Telugu, Tamil, and Malayalam that possess richer textual resources.
-By fine-tuning the model on these languages, we enabled it to learn common linguistic and sentiment patterns that could be potentially transferred to or be seen in Sourashtra.
-
-Next, we further fine-tuning the model on a custom-made Sourashtra sentiment dataset. 
-Our strategy is rooted in the theory that linguistic similarities among the 6 popular Indian languages would allow the model to successfully capture the linguistic nuances of Sourashtra. 
-The innovative aspect of our approach lies in a two method traing: first gathering abundant data from related languages and then adapting that knowledge to a low-resource language. 
-This method not only improves sentiment classification accuracy for Sourashtra but also demonstrates a novel, scalable pathway for enhancing NLP applications in other minority languages.
-
+Our goal was to build a robust sentiment‐analysis pipeline for Sourashtra, a low-resource minority language with virtually no off-the-shelf NLP tools. We chose XLM-RoBERTa as our starting point because its broad multilingual pretraining offers a strong foundation—but without adaptation, it typically yields only chance‐level performance on underrepresented tongues. Drawing on historical linguistics, we hypothesized that fine-tuning on closely related Indo-Aryan languages (Gujarati, Marathi, Hindi) would steer the model towards the morphosyntactic and semantic patterns of Sourashtra. At the same time, we contrasted this with fine-tuning on unrelated Dravidian languages (Tamil, Telugu, Malayalam) to empirically validate the importance of genuine linguistic affinity rather than mere dataset volume.
 </p>
 
 <p>
-<b>What problems did you anticipate? What problems did you encounter? Did the very first thing you tried work?</b>
-One major problem that we anticipated and faced was retrieving a sufficient dataset for the Sourashtra language. Since it is a minority language, there are not many abundant resources/resources that
-we could utilize. To overcome this, we had one of our group members create a custom datasheet, as they are a native speaker. This provided us with approximately 250 positive and negative sentiments 
-that we fed to the pre-trained XLM-RoBERTa model. 
+To put this into practice, we first curated a brand-new, balanced 250-sentence Sourashtra sentiment dataset (125 positive, 125 negative) entirely from scratch, ensuring each example preserved authentic grammar and vocabulary without English intrusions. We then conducted three sequential experiments:
+<ul>
+  <li><strong>Base fine-tuning:</strong> We fine-tuned XLM-RoBERTa separately on each source language dataset, measuring how much cross-lingual transfer each afforded.</li>
+  <li><strong>Strategic augmentation:</strong> Recognizing early that raw transfer delivered only modest gains, we augmented each Indo-Aryan training run with a tiny batch of 10 Sourashtra examples (5 pos / 5 neg). This minimal in-language “seed data” was intended to anchor the model’s decision boundaries to genuine Sourashtra usage.</li>
+  <li><strong>Ensemble fusion:</strong> Finally, we combined the three best Indo-Aryan fine-tuned models into a simple majority‐vote ensemble, aiming to leverage complementary strengths and reduce individual model variance.</li>
+</ul>
+By layering these steps, we moved from chance performance (50.0 %) to sustained improvements: moderate boosts from base fine-tuning, substantial jumps after augmentation (up to ≈69 %), and a final ensemble peak at 67.1 %.
+</p>
+
+<p>
+The journey surfaced several deep challenges:
+<ul>
+  <li><strong>Data scarcity &amp; heterogeneity:</strong> Public sentiment corpora for our source languages varied dramatically in size, annotation schemes, and domain. Harmonizing these datasets required extensive cleaning, re-labeling, and normalization to avoid introducing noise during transfer.</li>
+  <li><strong>Manual dataset creation:</strong> Crafting our Sourashtra corpus was a labor-intensive, one-person effort. Without multiple annotators, we struck a balance between linguistic purity and topical diversity, yet some syntactic structures remain underrepresented.</li>
+  <li><strong>Variable transfer efficacy:</strong> Early single-language fine-tuning yielded only incremental gains—sometimes under 2 %—and one Dravidian run even underperformed the baseline. This underscored that raw data volume alone cannot substitute for true linguistic alignment.</li>
+  <li><strong>Optimization sensitivity:</strong> We found that small changes in learning rate or epoch count could swing results by several points, indicating that low-resource fine-tuning demands more stable, adaptive training protocols.</li>
+</ul>
+These insights drove our pivot toward highly targeted data augmentation and motivate future work on principled sample-selection (e.g., active learning or informativeness scoring), adaptive optimization schedules, and the exploration of additional related languages (including Dravidian influences) to further elevate performance.
 </p>
 
 <hr>
 
 <h2 id="results">Results</h2>
 
-<section id="quantitative-results">
-  <h3>Quantitative Results</h3>
-  <p>Table 1 shows the accuracy of each model on our Sourashtra test set.</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Model</th>
-        <th>Accuracy (%)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Baseline (XLM-RoBERTa)</td><td>50.0</td></tr>
-      <tr><td>Gujarati fine-tuned</td><td>50.4</td></tr>
-      <tr><td>Marathi fine-tuned</td><td>56.8</td></tr>
-      <tr><td>Hindi fine-tuned</td><td>52.4</td></tr>
-      <tr><td>Malayalam fine-tuned</td><td>49.6</td></tr>
-      <tr><td>Tamil fine-tuned</td><td>50.0</td></tr>
-      <tr><td>Telugu fine-tuned</td><td>56.8</td></tr>
-      <tr><td>Indo-Aryan ensemble</td><td>53.2</td></tr>
-      <tr><td>Dravidian ensemble</td><td>50.8</td></tr>
-      <tr><td>Sourashtra fine-tuned</td><td>64.0</td></tr>
-      <tr><td>Augmented Gujarati</td><td>65.4</td></tr>
-      <tr><td>Augmented Marathi</td><td>66.3</td></tr>
-      <tr><td>Augmented Hindi</td><td>69.2</td></tr>
-      <tr><td>Augmented Indo-Aryan ensemble</td><td>67.1</td></tr>
-    </tbody>
-  </table>
-</section>
+<!-- Paragraph 1: Overall model accuracies -->
+<p>
+We started with a baseline XLM-RoBERTa at 50.0 % accuracy (no fine-tuning). Single-language fine-tuning yielded modest gains—Gujarati (50.4 %), Marathi (56.8 %), Hindi (52.4 %), Malayalam (49.6 %), Tamil (50.0 %), Telugu (56.8 %)—and simple ensembles of Indo-Aryan (Gujarati + Marathi + Hindi) reached 53.2 %, while the Dravidian ensemble (Tamil + Telugu + Malayalam) reached 50.8 %. Fine-tuning fully on our 250-sentence Sourashtra set jumped accuracy to 64.0 %, and injecting just 10 Sourashtra examples into each Indo-Aryan model (augmented experiments) further improved performance to 65.4 % (Gujarati), 66.3 % (Marathi), 69.2 % (Hindi) and 67.1 % for the combined augmented Indo-Aryan ensemble.
+</p>
 
-<section id="sample-size-results">
-  <h3>Sample-Size Sensitivity</h3>
-  <p>Table 2 shows how varying the number of Sourashtra samples in the augmented Hindi model affects accuracy.</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Number of Sourashtra Samples</th>
-        <th>Accuracy (%)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>2</td><td>50.0</td></tr>
-      <tr><td>4</td><td>50.0</td></tr>
-      <tr><td>6</td><td>50.0</td></tr>
-      <tr><td>8</td><td>50.0</td></tr>
-      <tr><td>10</td><td>63.8</td></tr>
-      <tr><td>12</td><td>50.0</td></tr>
-      <tr><td>14</td><td>50.0</td></tr>
-      <tr><td>16</td><td>63.3</td></tr>
-      <tr><td>18</td><td>50.0</td></tr>
-      <tr><td>20</td><td>65.3</td></tr>
-    </tbody>
-  </table>
-</section>
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Accuracy (%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Baseline (no fine-tuning)</td><td>50.0</td></tr>
+    <tr><td>Gujarati fine-tuned</td><td>50.4</td></tr>
+    <tr><td>Marathi fine-tuned</td><td>56.8</td></tr>
+    <tr><td>Hindi fine-tuned</td><td>52.4</td></tr>
+    <tr><td>Malayalam fine-tuned</td><td>49.6</td></tr>
+    <tr><td>Tamil fine-tuned</td><td>50.0</td></tr>
+    <tr><td>Telugu fine-tuned</td><td>56.8</td></tr>
+    <tr><td>Indo-Aryan ensemble</td><td>53.2</td></tr>
+    <tr><td>Dravidian ensemble</td><td>50.8</td></tr>
+    <tr><td>Sourashtra fine-tuned</td><td>64.0</td></tr>
+    <tr><td>Augmented Gujarati</td><td>65.4</td></tr>
+    <tr><td>Augmented Marathi</td><td>66.3</td></tr>
+    <tr><td>Augmented Hindi</td><td>69.2</td></tr>
+    <tr><td>Augmented Indo-Aryan ensemble</td><td>67.1</td></tr>
+  </tbody>
+</table>
+
+<!-- Paragraph 2: Class-level performance -->
+<p>
+On class-level metrics, our fully fine-tuned Sourashtra model (64.0 % overall) achieved a strong recall on negative examples (0.72) but lower recall on positive examples (0.50), yielding F1 = 0.67 for negatives. In contrast, the few-shot ensemble (61.0 % overall) excelled at positives (recall = 0.84) but missed most negatives (recall = 0.32), giving F1 = 0.42 on the negative class.
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Accuracy</th>
+      <th>Recall (Positive)</th>
+      <th>Recall (Negative)</th>
+      <th>F1 (Positive)</th>
+      <th>F1 (Negative)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Fully fine-tuned Sourashtra</td>
+      <td>64.0 %</td>
+      <td>0.50</td>
+      <td>0.72</td>
+      <td>0.57</td>
+      <td>0.67</td>
+    </tr>
+    <tr>
+      <td>Few-shot ensemble</td>
+      <td>61.0 %</td>
+      <td>0.84</td>
+      <td>0.32</td>
+      <td>0.62</td>
+      <td>0.42</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Paragraph 3: Sample-size sensitivity -->
+<p>
+To probe data-augmentation sensitivity, we varied the number of Sourashtra examples (2–20) in our best Augmented Hindi model (LR = 3e-5, batch = 16, 7 epochs). Results were highly inconsistent: most runs hovered at 50 %, but peaks appeared at 10 (63.8 %), 16 (63.3 %) and 20 (65.3 %) samples. Re-sampling the same sizes frequently dropped performance back to 50 %, underlining that specific sentences carry disproportionately informative cues and motivating more principled sample-selection strategies.
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th># Sourashtra Samples</th>
+      <th>Accuracy (%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>2</td><td>50.0</td></tr>
+    <tr><td>4</td><td>50.0</td></tr>
+    <tr><td>6</td><td>50.0</td></tr>
+    <tr><td>8</td><td>50.0</td></tr>
+    <tr><td>10</td><td>63.8</td></tr>
+    <tr><td>12</td><td>50.0</td></tr>
+    <tr><td>14</td><td>50.0</td></tr>
+    <tr><td>16</td><td>63.3</td></tr>
+    <tr><td>18</td><td>50.0</td></tr>
+    <tr><td>20</td><td>65.3</td></tr>
+  </tbody>
+</table>
 
 <hr>
 
 <h2 id="conclusion">Conclusion and Future Work</h2>
 
 <p>
-Our experiments show that fine-tuning XLM-RoBERTa on linguistically related Indo-Aryan languages delivers modest gains over the 50 % baseline (Gujarati 50.4 %, Marathi 56.8 %, Hindi 52.4 %) and that simple ensembles of these languages reach 53.2 % accuracy. Fully fine-tuning on our 250-sentence Sourashtra dataset boosts accuracy to 64.0 %. Crucially, targeted data augmentation—injecting just 10 Sourashtra sentences into each fine-tuning run—yields further improvements: augmented Gujarati 65.4 %, augmented Marathi 66.3 %, augmented Hindi 69.2 %, and an augmented Indo-Aryan ensemble at 67.1 % accuracy. These results demonstrate that even minimal in-language data can substantially enhance cross-lingual transfer, improving the model’s grasp of context and negation beyond surface lexical overlap.
+Our experiments show that fine-tuning XLM-RoBERTa on linguistically related Indo-Aryan languages delivers modest gains over the 50% baseline (Gujarati 50.4%, Marathi 56.8%, Hindi 52.4%) and that simple ensembles of these languages reach 53.2% accuracy. Fully fine-tuning on our 250-sentence Sourashtra dataset boosts accuracy to 64.0%. Crucially, targeted data augmentation—injecting just 10 Sourashtra sentences into each fine-tuning run—yields further improvements: augmented Gujarati 65.4%, augmented Marathi 66.3%, augmented Hindi 69.2%, and an augmented Indo-Aryan ensemble at 67.1% accuracy. These results demonstrate that even minimal in-language data can substantially enhance cross-lingual transfer, improving the model’s grasp of context and negation beyond surface lexical overlap.
 </p>
 
 <p>
