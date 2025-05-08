@@ -196,381 +196,61 @@ that we fed to the pre-trained XLM-RoBERTa model.
 </p>
 
 <hr>
+
 <h2 id="results">Results</h2>
 
-<!-- Baseline Results -->
-<section id="baseline-results">
-  <h3>Baseline Results</h3>
-  <pre>
-Baseline Accuracy  
-Label 
-1    125 
-0    125 
-Name: count, dtype: int64 
-Baseline Accuracy: 0.5000 
-Precision: 0.5000, Recall: 1.0000, F1-score: 0.6667
-  </pre>
-</section>
-
-<!-- Gujarati Fine-tuned Model Results -->
-<section id="gujarati-results">
-  <h3>Gujarati Fine-tuned Model (3 Epochs)</h3>
-  <p><strong>Accuracy on Sourashtra:</strong> 0.5040</p>
-  <p><strong>Precision:</strong> 0.5021, <strong>Recall:</strong> 0.9680, <strong>F1-score:</strong> 0.6612</p>
-  <pre>
-training_args = TrainingArguments(
-    output_dir="./results",
-    evaluation_strategy="epoch",
-    save_strategy="epoch",
-    learning_rate=5e-5,
-    per_device_train_batch_size=8,
-    per_device_eval_batch_size=8,
-    num_train_epochs=3,
-    weight_decay=0.01,
-    logging_dir="./logs",
-    logging_steps=10,
-    remove_unused_columns=False
-)
-  </pre>
-</section>
-
-<!-- Marathi Fine-tuned Model Results (3 Epochs) -->
-<section id="marathi-3epochs">
-  <h3>Marathi Fine-tuned Model (3 Epochs)</h3>
-  <p><strong>Accuracy on Sourashtra:</strong> 0.5000</p>
-  <p><strong>Precision:</strong> 0.5000, <strong>Recall:</strong> 1.0000, <strong>F1-score:</strong> 0.6667</p>
-  
-  <h4>Training Metrics</h4>
+<section id="quantitative-results">
+  <h3>Quantitative Results</h3>
+  <p>Table 1 shows the accuracy of each model on our Sourashtra test set.</p>
   <table>
     <thead>
       <tr>
-        <th>Epoch</th>
-        <th>Training Loss</th>
-        <th>Validation Loss</th>
-        <th>Accuracy</th>
-        <th>Precision</th>
-        <th>Recall</th>
-        <th>F1</th>
+        <th>Model</th>
+        <th>Accuracy (%)</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>1</td>
-        <td>0.711700</td>
-        <td>0.693495</td>
-        <td>0.500000</td>
-        <td>1.000000</td>
-        <td>0.000000</td>
-        <td>0.000000</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>0.689700</td>
-        <td>0.695169</td>
-        <td>0.500000</td>
-        <td>0.500000</td>
-        <td>1.000000</td>
-        <td>0.666667</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>0.688800</td>
-        <td>0.693072</td>
-        <td>0.500000</td>
-        <td>0.500000</td>
-        <td>1.000000</td>
-        <td>0.666667</td>
-      </tr>
+      <tr><td>Baseline (XLM-RoBERTa)</td><td>50.0</td></tr>
+      <tr><td>Gujarati fine-tuned</td><td>50.4</td></tr>
+      <tr><td>Marathi fine-tuned</td><td>56.8</td></tr>
+      <tr><td>Hindi fine-tuned</td><td>52.4</td></tr>
+      <tr><td>Malayalam fine-tuned</td><td>49.6</td></tr>
+      <tr><td>Tamil fine-tuned</td><td>50.0</td></tr>
+      <tr><td>Telugu fine-tuned</td><td>56.8</td></tr>
+      <tr><td>Indo-Aryan ensemble</td><td>53.2</td></tr>
+      <tr><td>Dravidian ensemble</td><td>50.8</td></tr>
+      <tr><td>Sourashtra fine-tuned</td><td>64.0</td></tr>
+      <tr><td>Augmented Gujarati</td><td>65.4</td></tr>
+      <tr><td>Augmented Marathi</td><td>66.3</td></tr>
+      <tr><td>Augmented Hindi</td><td>69.2</td></tr>
+      <tr><td>Augmented Indo-Aryan ensemble</td><td>67.1</td></tr>
     </tbody>
   </table>
-  
-  <pre>
-training_args = TrainingArguments(
-    output_dir="./results",
-    evaluation_strategy="epoch",
-    save_strategy="epoch",
-    learning_rate=5e-5,
-    per_device_train_batch_size=8,
-    per_device_eval_batch_size=8,
-    num_train_epochs=3,
-    weight_decay=0.01,
-    logging_dir="./logs",
-    logging_steps=10,
-    remove_unused_columns=False
-)
-  </pre>
 </section>
 
-<!-- Marathi Fine-tuned Model Results (7 Epochs) -->
-<section id="marathi-7epochs">
-  <h3>Marathi Fine-tuned Model (7 Epochs)</h3>
-  <p><strong>Accuracy on Sourashtra:</strong> 0.5000</p>
-  <p><strong>Precision:</strong> 0.5000, <strong>Recall:</strong> 1.0000, <strong>F1-score:</strong> 0.6667</p>
-  
-  <h4>Training Metrics</h4>
+<section id="sample-size-results">
+  <h3>Sample-Size Sensitivity</h3>
+  <p>Table 2 shows how varying the number of Sourashtra samples in the augmented Hindi model affects accuracy.</p>
   <table>
     <thead>
       <tr>
-        <th>Epoch</th>
-        <th>Training Loss</th>
-        <th>Validation Loss</th>
-        <th>Accuracy</th>
-        <th>Precision</th>
-        <th>Recall</th>
-        <th>F1</th>
+        <th>Number of Sourashtra Samples</th>
+        <th>Accuracy (%)</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>1</td>
-        <td>0.696700</td>
-        <td>0.694290</td>
-        <td>0.500000</td>
-        <td>1.000000</td>
-        <td>0.000000</td>
-        <td>0.000000</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>0.701500</td>
-        <td>0.695057</td>
-        <td>0.500000</td>
-        <td>0.500000</td>
-        <td>1.000000</td>
-        <td>0.666667</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>0.699600</td>
-        <td>0.693483</td>
-        <td>0.500000</td>
-        <td>1.000000</td>
-        <td>0.000000</td>
-        <td>0.000000</td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td>0.695200</td>
-        <td>0.696917</td>
-        <td>0.500000</td>
-        <td>1.000000</td>
-        <td>0.000000</td>
-        <td>0.000000</td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td>0.695900</td>
-        <td>0.693611</td>
-        <td>0.500000</td>
-        <td>1.000000</td>
-        <td>0.000000</td>
-        <td>0.000000</td>
-      </tr>
-      <tr>
-        <td>6</td>
-        <td>0.704400</td>
-        <td>0.693242</td>
-        <td>0.500000</td>
-        <td>1.000000</td>
-        <td>0.000000</td>
-        <td>0.000000</td>
-      </tr>
-      <tr>
-        <td>7</td>
-        <td>0.686900</td>
-        <td>0.693171</td>
-        <td>0.500000</td>
-        <td>0.500000</td>
-        <td>1.000000</td>
-        <td>0.666667</td>
-      </tr>
-      <!-- Include additional rows for epochs 2 to 7 as shown in your PDF -->
+      <tr><td>2</td><td>50.0</td></tr>
+      <tr><td>4</td><td>50.0</td></tr>
+      <tr><td>6</td><td>50.0</td></tr>
+      <tr><td>8</td><td>50.0</td></tr>
+      <tr><td>10</td><td>63.8</td></tr>
+      <tr><td>12</td><td>50.0</td></tr>
+      <tr><td>14</td><td>50.0</td></tr>
+      <tr><td>16</td><td>63.3</td></tr>
+      <tr><td>18</td><td>50.0</td></tr>
+      <tr><td>20</td><td>65.3</td></tr>
     </tbody>
   </table>
-  
-  <pre>
-training_args = TrainingArguments(
-    output_dir="./marathi_results",
-    eval_strategy="epoch",
-    save_strategy="epoch",
-    learning_rate=5e-5,
-    per_device_train_batch_size=8,
-    per_device_eval_batch_size=8,
-    num_train_epochs=7,
-    weight_decay=0.01,
-    logging_dir="./marathi_logs",
-    logging_steps=10,
-    remove_unused_columns=False,
-    report_to="none"
-)
-  </pre>
-</section>
-
-<!-- Hindi Fine-tuned Model Results (3 & 7 Epochs) -->
-<section id="hindi-results">
-  <h3>Hindi Fine-tuned Model (3 Epochs)</h3>
-  <p><strong>Accuracy on Sourashtra:</strong> 0.5000</p>
-  <p><strong>Precision:</strong> 0.5000, <strong>Recall:</strong> 1.0000, <strong>F1-score:</strong> 0.6667</p>
-  
-  <h4>Training Metrics (3 Epochs)</h4>
-  <table>
-    <thead>
-      <tr>
-        <th>Epoch</th>
-        <th>Training Loss</th>
-        <th>Validation Loss</th>
-        <th>Accuracy</th>
-        <th>Precision</th>
-        <th>Recall</th>
-        <th>F1</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>0.690900</td>
-        <td>0.543022</td>
-        <td>0.770000</td>
-        <td>0.770000</td>
-        <td>1.000000</td>
-        <td>0.870056</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>0.779200</td>
-        <td>0.546899</td>
-        <td>0.770000</td>
-        <td>0.770000</td>
-        <td>1.000000</td>
-        <td>0.870056</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>0.571900</td>
-        <td>0.539649</td>
-        <td>0.770000</td>
-        <td>0.770000</td>
-        <td>1.000000</td>
-        <td>0.870056</td>
-      </tr>
-    </tbody>
-  </table>
-  
-  <pre>
-training_args = TrainingArguments(
-    output_dir="./results",
-    evaluation_strategy="epoch",
-    save_strategy="epoch",
-    learning_rate=5e-5,
-    per_device_train_batch_size=8,
-    per_device_eval_batch_size=8,
-    num_train_epochs=3,
-    weight_decay=0.01,
-    logging_dir="./logs",
-    logging_steps=10,
-    remove_unused_columns=False
-)
-  </pre>
-  
-  <h3>Hindi Fine-tuned Model (7 Epochs)</h3>
-  <p><strong>Accuracy on Sourashtra:</strong> 0.5000</p>
-  <p><strong>Precision:</strong> 0.5000, <strong>Recall:</strong> 1.0000, <strong>F1-score:</strong> 0.6667</p>
-  
-  <h4>Training Metrics (7 Epochs)</h4>
-  <table>
-    <thead>
-      <tr>
-        <th>Epoch</th>
-        <th>Training Loss</th>
-        <th>Validation Loss</th>
-        <th>Accuracy</th>
-        <th>Precision</th>
-        <th>Recall</th>
-        <th>F1</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>0.667500</td>
-        <td>0.539256</td>
-        <td>0.770000</td>
-        <td>0.770000</td>
-        <td>1.000000</td>
-        <td>0.870056</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>0.793500</td>
-        <td>0.545243</td>
-        <td>0.770000</td>
-        <td>0.770000</td>
-        <td>1.000000</td>
-        <td>0.870056</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>0.580100</td>
-        <td>0.540899</td>
-        <td>0.770000</td>
-        <td>0.770000</td>
-        <td>1.000000</td>
-        <td>0.870056</td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td>0.498400</td>
-        <td>0.539759</td>
-        <td>0.770000</td>
-        <td>0.770000</td>
-        <td>1.000000</td>
-        <td>0.870056</td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td>0.509900</td>
-        <td>0.539628</td>
-        <td>0.770000</td>
-        <td>0.770000</td>
-        <td>1.000000</td>
-        <td>0.870056</td>
-      </tr>
-      <tr>
-        <td>6</td>
-        <td>0.517400</td>
-        <td>0.540118</td>
-        <td>0.770000</td>
-        <td>0.770000</td>
-        <td>1.000000</td>
-        <td>0.870056</td>
-      </tr>
-      <tr>
-        <td>7</td>
-        <td>0.507500</td>
-        <td>0.540586</td>
-        <td>0.770000</td>
-        <td>0.770000</td>
-        <td>1.000000</td>
-        <td>0.870056</td>
-      </tr>
-    </tbody>
-  </table>
-  
-  <pre>
-training_args = TrainingArguments(
-    output_dir="./results",
-    evaluation_strategy="epoch",
-    save_strategy="epoch",
-    learning_rate=5e-5,
-    per_device_train_batch_size=8,
-    per_device_eval_batch_size=8,
-    num_train_epochs=7,
-    weight_decay=0.01,
-    logging_dir="./logs",
-    logging_steps=10,
-    remove_unused_columns=False
-)
-  </pre>
 </section>
 
 <hr>
