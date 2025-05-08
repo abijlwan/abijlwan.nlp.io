@@ -258,18 +258,18 @@ that we fed to the pre-trained XLM-RoBERTa model.
 <h2 id="conclusion">Conclusion and Future Work</h2>
 
 <p>
-Our experiments show that fine-tuning XLM-RoBERTa on linguistically related Indo-Aryan languages delivers modest gains over the 50 % baseline (Gujarati 50.4 %, Marathi 56.8 %, Hindi 52.4 %) and that simple ensembles of these languages reach 53.2 % accuracy. Fully fine-tuning on our 250-sentence Sourashtra dataset boosts accuracy to 64.0 %. Crucially, targeted data augmentation—injecting just 10 Sourashtra sentences into each fine-tuning run—yields further improvements: augmented Gujarati 65.4 %, augmented Marathi 66.3 %, augmented Hindi 69.2 %, and an augmented Indo-Aryan ensemble at 67.1 % accuracy CSCI_5541_AudiQuattro_FinalReport.pdf](file-service://file-XitJy1GM6shnnqHKWET872). These results demonstrate that even minimal in-language data can substantially enhance cross-lingual transfer, improving the model’s grasp of context and negation beyond surface lexical overlap.
+Our experiments show that fine-tuning XLM-RoBERTa on linguistically related Indo-Aryan languages delivers modest gains over the 50 % baseline (Gujarati 50.4 %, Marathi 56.8 %, Hindi 52.4 %) and that simple ensembles of these languages reach 53.2 % accuracy. Fully fine-tuning on our 250-sentence Sourashtra dataset boosts accuracy to 64.0 %. Crucially, targeted data augmentation—injecting just 10 Sourashtra sentences into each fine-tuning run—yields further improvements: augmented Gujarati 65.4 %, augmented Marathi 66.3 %, augmented Hindi 69.2 %, and an augmented Indo-Aryan ensemble at 67.1 % accuracy. These results demonstrate that even minimal in-language data can substantially enhance cross-lingual transfer, improving the model’s grasp of context and negation beyond surface lexical overlap.
 </p>
 
 <p>
-However, we observed significant variability in performance depending on which examples were selected for augmentation, indicating that not all samples contribute equally to generalization CSCI_5541_AudiQuattro_FinalReport.pdf](file-service://file-XCQmtnNd6dMrotBtYhyVpT). Additionally, sensitivity to learning rates and training duration suggests that more robust or adaptive optimization strategies may be necessary to stabilize results.
+However, we observed significant variability in performance depending on which examples were selected for augmentation, indicating that not all samples contribute equally to generalization. Additionally, sensitivity to learning rates and training duration suggests that more robust or adaptive optimization strategies may be necessary to stabilize results.
 </p>
 
 <p>
 Looking ahead, we plan to:
 <ul>
-  <li>Expand and diversify our Sourashtra sentiment corpus in collaboration with native speakers and community stakeholders to capture richer linguistic and cultural nuance CSCI_5541_AudiQuattro_FinalReport.pdf](file-service://file-XitJy1GM6shnnqHKWET872).</li>
-  <li>Investigate principled sample-selection methods—such as active learning or curriculum learning—to identify the most informative sentences for augmentation CSCI_5541_AudiQuattro_FinalReport.pdf](file-service://file-XCQmtnNd6dMrotBtYhyVpT).</li>
+  <li>Expand and diversify our Sourashtra sentiment corpus in collaboration with native speakers and community stakeholders to capture richer linguistic and cultural nuance </li>
+  <li>Investigate principled sample-selection methods—such as active learning or curriculum learning—to identify the most informative sentences for augmentation </li>
   <li>Explore fine-tuning on Dravidian languages historically influencing Sourashtra, and experiment with alternative model architectures (e.g., adapter modules or additional neural layers) to uncover new performance gains.</li>
   <li>Introduce multiple annotators and perform detailed error analyses on failure cases (negation, sarcasm, ambiguous phrasing) to guide targeted improvements.</li>
   <li>Evaluate our models on downstream tasks—such as machine translation or topic classification—to assess broader applicability and robustness for low-resource language technologies.</li>
