@@ -1,0 +1,82 @@
+/* General body styles */
+body {
+    background-color: #f0f8ff; /* off-white/light blue tone */
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+  
+  .wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Center all headings */
+  h1, h2, h3, h4, h5, h6 {
+    text-align: center;
+    margin: 20px 0;
+    color: #2c3e50;
+  }
+  
+  /* Paragraph styling */
+  p {
+    text-align: justify;
+    margin: 10px 0;
+    line-height: 1.6;
+  }
+  
+  /* Table styling */
+  table {
+    margin: 20px auto;
+    width: 80%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+  }
+  
+  table, th, td {
+    border: 1px solid #ddd;
+  }
+  
+  th, td {
+    padding: 8px;
+    text-align: center;
+  }
+  
+  th {
+    background-color: #dceefc; /* light blue background for table headers */
+    color: #2c3e50;
+  }
+  
+
+  pre {
+    background-color: #f4f4f4;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow-x: auto;
+  }
+  
+  a {
+    color: #3498db;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  button, .button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button:hover, .button:hover {
+    background-color: #2980b9;
+  }
