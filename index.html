@@ -182,20 +182,20 @@ Our goal was to build a robust sentiment‐analysis pipeline for Sourashtra, a l
 <p>
 To put this into practice, we first curated a brand-new, balanced 250-sentence Sourashtra sentiment dataset (125 positive, 125 negative) entirely from scratch, ensuring each example preserved authentic grammar and vocabulary without English intrusions. We then conducted three sequential experiments:
 <ul>
-  <li><strong>Base fine-tuning:</strong> We fine-tuned XLM-RoBERTa separately on each source language dataset, measuring how much cross-lingual transfer each afforded.</li>
-  <li><strong>Strategic augmentation:</strong> Recognizing early that raw transfer delivered only modest gains, we augmented each Indo-Aryan training run with a tiny batch of 10 Sourashtra examples (5 pos / 5 neg). This minimal in-language “seed data” was intended to anchor the model’s decision boundaries to genuine Sourashtra usage.</li>
-  <li><strong>Ensemble fusion:</strong> Finally, we combined the three best Indo-Aryan fine-tuned models into a simple majority‐vote ensemble, aiming to leverage complementary strengths and reduce individual model variance.</li>
+  <li> We fine-tuned XLM-RoBERTa separately on each source language dataset, measuring how much cross-lingual transfer each afforded.</li>
+  <li> Recognizing early that raw transfer delivered only modest gains, we augmented each Indo-Aryan training run with a tiny batch of 10 Sourashtra examples (5 pos / 5 neg). This minimal in-language “seed data” was intended to anchor the model’s decision boundaries to genuine Sourashtra usage.</li>
+  <li> Finally, we combined the three best Indo-Aryan fine-tuned models into a simple majority‐vote ensemble, aiming to leverage complementary strengths and reduce individual model variance.</li>
 </ul>
-By layering these steps, we moved from chance performance (50.0 %) to sustained improvements: moderate boosts from base fine-tuning, substantial jumps after augmentation (up to ≈69 %), and a final ensemble peak at 67.1 %.
+By layering these steps, we moved from chance performance (50.0%) to sustained improvements: moderate boosts from base fine-tuning, substantial jumps after augmentation (up to ≈ 69%), and a final ensemble peak at 67.08%.
 </p>
 
 <p>
 The journey surfaced several deep challenges:
 <ul>
-  <li><strong>Data scarcity &amp; heterogeneity:</strong> Public sentiment corpora for our source languages varied dramatically in size, annotation schemes, and domain. Harmonizing these datasets required extensive cleaning, re-labeling, and normalization to avoid introducing noise during transfer.</li>
-  <li><strong>Manual dataset creation:</strong> Crafting our Sourashtra corpus was a labor-intensive, one-person effort. Without multiple annotators, we struck a balance between linguistic purity and topical diversity, yet some syntactic structures remain underrepresented.</li>
-  <li><strong>Variable transfer efficacy:</strong> Early single-language fine-tuning yielded only incremental gains—sometimes under 2 %—and one Dravidian run even underperformed the baseline. This underscored that raw data volume alone cannot substitute for true linguistic alignment.</li>
-  <li><strong>Optimization sensitivity:</strong> We found that small changes in learning rate or epoch count could swing results by several points, indicating that low-resource fine-tuning demands more stable, adaptive training protocols.</li>
+  <li> Public sentiment corpora for our source languages varied dramatically in size, annotation schemes, and domain. Harmonizing these datasets required extensive cleaning, re-labeling, and normalization to avoid introducing noise during transfer.</li>
+  <li> Crafting our Sourashtra corpus was a labor-intensive, one-person effort. Without multiple annotators, we struck a balance between linguistic purity and topical diversity, yet some syntactic structures remain underrepresented.</li>
+  <li> Early single-language fine-tuning yielded only incremental gains—sometimes under 2 %—and one Dravidian run even underperformed the baseline. This underscored that raw data volume alone cannot substitute for true linguistic alignment.</li>
+  <li> We found that small changes in learning rate or epoch count could swing results by several points, indicating that low-resource fine-tuning demands more stable, adaptive training protocols.</li>
 </ul>
 These insights drove our pivot toward highly targeted data augmentation and motivate future work on principled sample-selection (e.g., active learning or informativeness scoring), adaptive optimization schedules, and the exploration of additional related languages (including Dravidian influences) to further elevate performance.
 </p>
@@ -206,7 +206,7 @@ These insights drove our pivot toward highly targeted data augmentation and moti
 
 <!-- Paragraph 1: Overall model accuracies -->
 <p>
-We started with a baseline XLM-RoBERTa at 50.0 % accuracy (no fine-tuning). Single-language fine-tuning yielded modest gains—Gujarati (50.4 %), Marathi (56.8 %), Hindi (52.4 %), Malayalam (49.6 %), Tamil (50.0 %), Telugu (56.8 %)—and simple ensembles of Indo-Aryan (Gujarati + Marathi + Hindi) reached 53.2 %, while the Dravidian ensemble (Tamil + Telugu + Malayalam) reached 50.8 %. Fine-tuning fully on our 250-sentence Sourashtra set jumped accuracy to 64.0 %, and injecting just 10 Sourashtra examples into each Indo-Aryan model (augmented experiments) further improved performance to 65.4 % (Gujarati), 66.3 % (Marathi), 69.2 % (Hindi) and 67.1 % for the combined augmented Indo-Aryan ensemble.
+We started with a baseline XLM-RoBERTa at 50.0% accuracy (no fine-tuning). Single-language fine-tuning yielded modest gains—Gujarati (50.4%), Marathi (56.8%), Hindi (52.4%), Malayalam (49.6 %), Tamil (50.0 %), Telugu (56.8 %)—and simple ensembles of Indo-Aryan (Gujarati + Marathi + Hindi) reached 53.2 %, while the Dravidian ensemble (Tamil + Telugu + Malayalam) reached 50.8 %. Fine-tuning fully on our 250-sentence Sourashtra set jumped accuracy to 64.0 %, and injecting just 10 Sourashtra examples into each Indo-Aryan model (augmented experiments) further improved performance to 65.42 % (Gujarati), 66.25 % (Marathi), 69.17 % (Hindi) and 67.08 % for the combined augmented Indo-Aryan ensemble.
 </p>
 
 <table>
@@ -227,16 +227,16 @@ We started with a baseline XLM-RoBERTa at 50.0 % accuracy (no fine-tuning). Sing
     <tr><td>Indo-Aryan ensemble</td><td>53.2</td></tr>
     <tr><td>Dravidian ensemble</td><td>50.8</td></tr>
     <tr><td>Sourashtra fine-tuned</td><td>64.0</td></tr>
-    <tr><td>Augmented Gujarati</td><td>65.4</td></tr>
-    <tr><td>Augmented Marathi</td><td>66.3</td></tr>
-    <tr><td>Augmented Hindi</td><td>69.2</td></tr>
-    <tr><td>Augmented Indo-Aryan ensemble</td><td>67.1</td></tr>
+    <tr><td>Augmented Gujarati</td><td>65.42%</td></tr>
+    <tr><td>Augmented Marathi</td><td>66.25%</td></tr>
+    <tr><td>Augmented Hindi</td><td>69.17%</td></tr>
+    <tr><td>Augmented Indo-Aryan ensemble</td><td>67.08</td></tr>
   </tbody>
 </table>
 
 <!-- Paragraph 2: Class-level performance -->
 <p>
-On class-level metrics, our fully fine-tuned Sourashtra model (64.0 % overall) achieved a strong recall on negative examples (0.72) but lower recall on positive examples (0.50), yielding F1 = 0.67 for negatives. In contrast, the few-shot ensemble (61.0 % overall) excelled at positives (recall = 0.84) but missed most negatives (recall = 0.32), giving F1 = 0.42 on the negative class.
+On class-level metrics, our fully fine-tuned Sourashtra model (64.0% overall) achieved a strong recall on negative examples (0.72) but lower recall on positive examples (0.50), yielding F1 = 0.67 for negatives. In contrast, the Augmented Indo-Aryan ensemble (61.0% overall) excelled at positives (recall = 0.84) but missed most negatives (recall = 0.32), giving F1 = 0.42 on the negative class.
 </p>
 
 <table>
@@ -253,14 +253,14 @@ On class-level metrics, our fully fine-tuned Sourashtra model (64.0 % overall) a
   <tbody>
     <tr>
       <td>Fully fine-tuned Sourashtra</td>
-      <td>64.0 %</td>
+      <td>64.0%</td>
       <td>0.50</td>
       <td>0.72</td>
       <td>0.57</td>
       <td>0.67</td>
     </tr>
     <tr>
-      <td>Few-shot ensemble</td>
+      <td>Augmented Indo-Aryan ensemble</td>
       <td>61.0 %</td>
       <td>0.84</td>
       <td>0.32</td>
@@ -287,12 +287,12 @@ To probe data-augmentation sensitivity, we varied the number of Sourashtra examp
     <tr><td>4</td><td>50.0</td></tr>
     <tr><td>6</td><td>50.0</td></tr>
     <tr><td>8</td><td>50.0</td></tr>
-    <tr><td>10</td><td>63.8</td></tr>
+    <tr><td>10</td><td>63.75</td></tr>
     <tr><td>12</td><td>50.0</td></tr>
     <tr><td>14</td><td>50.0</td></tr>
-    <tr><td>16</td><td>63.3</td></tr>
+    <tr><td>16</td><td>63.25</td></tr>
     <tr><td>18</td><td>50.0</td></tr>
-    <tr><td>20</td><td>65.3</td></tr>
+    <tr><td>20</td><td>65.25</td></tr>
   </tbody>
 </table>
 
