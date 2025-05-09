@@ -224,7 +224,7 @@ These insights drove our pivot toward highly targeted data augmentation and moti
 
 <!-- Paragraph 1: Overall model accuracies -->
 <p>
-We started with a baseline XLM-RoBERTa at 50.0% accuracy (no fine-tuning). Single-language fine-tuning yielded modest gains—Gujarati (50.4%), Marathi (56.8%), Hindi (52.4%), Malayalam (49.6 %), Tamil (50.0 %), Telugu (56.8 %)—and simple ensembles of Indo-Aryan (Gujarati + Marathi + Hindi) reached 53.2 %, while the Dravidian ensemble (Tamil + Telugu + Malayalam) reached 50.8 %. Fine-tuning fully on our 250-sentence Sourashtra set jumped accuracy to 64.0 %, and injecting just 10 Sourashtra examples into each Indo-Aryan model (augmented experiments) further improved performance to 65.42 % (Gujarati), 66.25 % (Marathi), 69.17 % (Hindi) and 67.08 % for the combined augmented Indo-Aryan ensemble.
+We started with a baseline XLM-RoBERTa at 50.0% accuracy (no fine-tuning). Single-language fine-tuning yielded modest gains, Gujarati (50.4%), Marathi (56.8%), Hindi (52.4%), Malayalam (49.6%), Tamil (50.0%), Telugu (56.8%), and simple ensembles of Indo-Aryan (Gujarati + Marathi + Hindi) reached 53.2%, while the Dravidian ensemble (Tamil + Telugu + Malayalam) reached 50.8%. Fine-tuning fully on our 250-sentence Sourashtra set jumped accuracy to 62.0%, and injecting just 10 Sourashtra examples into each Indo-Aryan model (augmented experiments) further improved performance to 65.42% (Gujarati), 66.25% (Marathi), 69.17% (Hindi) and 67.08% for the combined augmented Indo-Aryan ensemble.
 </p>
 
 <table>
